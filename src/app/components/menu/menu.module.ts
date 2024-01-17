@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import { MenuComponent } from './menu.component';
     MenuComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [
     MenuComponent

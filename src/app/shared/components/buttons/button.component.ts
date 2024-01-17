@@ -14,6 +14,8 @@ export class ButtonComponent implements OnInit {
   @Input() value = '';
   @Input() padding = '0.5rem 1rem';
   @Input() classBtn = '';
+  @Input() needSvg = false;
+  @Input() fontColore = '#000000';
   constructor() {
    }
 
