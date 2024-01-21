@@ -26,7 +26,7 @@ export const loadBoards = createAction(
 
 export const loadBoardsSuccess = createAction(
     '[Board] Load Boards Success',
-    props<{ response: ResponseModel<BoardModel[]> }>()
+    props<{ response: ResponseModel<BoardModel> }>()
 );
 
 export const loadBoardsFail = createAction('[Board] Load Board Fail');
@@ -53,7 +53,7 @@ export const createDefaultBoard = createAction(
 
 export const createDefaultBoardSsuccess = createAction(
   '[Board] Create Default Board Success',
-  props<{ response: ResponseModel<BoardModel[]> }>()
+  props<{ response: ResponseModel<BoardModel> }>()
 )
 
 export const createDefaultBoardFail = createAction(

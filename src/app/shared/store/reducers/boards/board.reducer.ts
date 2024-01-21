@@ -32,7 +32,7 @@ export const BoardReducer = createReducer(
         ...state,
         listboards: undefined
     })),
-    on(BoardsActions.loadBoardSuccess, (state: BoardState, { response }) => ({
+    on(BoardsActions.loadBoardsSuccess, (state: BoardState, { response }) => ({
         ...state,
         listboards: response
     })),
@@ -62,7 +62,7 @@ export const BoardReducer = createReducer(
     })),
     on(BoardsActions.loadBoardSuccess, (state: BoardState, { response }) => ({
         ...state,
-        board: response
+        board: response,
     })),
     on(BoardsActions.loadBoardFail, (state: BoardState) => ({
         ...state,

@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuModule } from './components/menu/menu.module';
 import { HeaderModule } from './components/header/header.module';
+import { ModalModule } from './components/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HeaderModule } from './components/header/header.module';
     HttpClientModule,
     MenuModule,
     HeaderModule,
+    ModalModule,
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
   ],

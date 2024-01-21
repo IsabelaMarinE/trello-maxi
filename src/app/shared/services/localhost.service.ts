@@ -29,24 +29,6 @@ export class LocalHostService {
   constructor() {
   }
 
-  initProject(): Promise<ResponseModel<BoardModel[]>> {
-    const response = new ResponseModel<BoardModel[]>
-    return new Promise((resolve, reject) => {
-      try {
-        localStorage.setItem("boards", JSON.stringify(this.Boards));
-        response.items = [this.Boards];
-        response.error = '';
-        response.state = true;
-        resolve(response);
-      } catch (err: any) {
-        response.items = [];
-        response.error = err;
-        response.state = false;
-        reject(response);
-      }
-    })
-  }
-
   addNewboard(request: BoardModel): Promise<BoardModel> {
     try {
       this.Boards = JSON.parse(localStorage.getItem("boards") || '');
@@ -88,20 +70,17 @@ export class LocalHostService {
 
   }
 
-  loadBoards(): Promise<ResponseModel<BoardModel[]>> {
-    const response = new ResponseModel<BoardModel[]>
+  loadBoards(): Promise<ResponseModel<BoardModel>> {
+    const response = new ResponseModel<BoardModel>
     return new Promise((resolve, reject) => {
       try {
         if(this.Boards.length > 0){
-          response.items = [this.Boards];
+          response.items = this.Boards;
           response.error = '';
           response.state = true;
           resolve(response);
+          localStorage.setItem("boards", JSON.stringify(this.Boards));
         }
-        response.items = [];
-        response.error = 'Boards Not Found';
-        response.state = false;
-        reject(response);
       } catch (err:any) {
         response.items = [];
         response.error = err;
