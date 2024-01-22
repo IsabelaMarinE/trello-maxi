@@ -9,29 +9,29 @@ import { TaskModel } from '../models/tasks/task.model';
     providedIn: 'root',
 })
 export class LocalHostService {
-
-  private Board: BoardModel = {
-    id: uuidv4(),
-    title: 'Home',
-    description: 'Init Tasks',
-    column_list: []
-  }
+  private idBoard = uuidv4();
 
   private columns: ColumnModel = {
     id: uuidv4(),
-    id_board: this.Board.id,
+    id_board: this.idBoard,
     title: 'To Do',
     task_list: []
   };
 
+  private Board: BoardModel = {
+    id: this.idBoard,
+    title: 'Home',
+    description: 'Init Tasks',
+    column_list: [this.columns]
+  }
 
   private Boards: BoardModel[] = [
     this.Board
   ];
 
-  constructor() {
-    this.Board.column_list.push(this.columns);
-  }
+  private taskList: any[] = [];
+
+  constructor() {}
 
   /*
   Init Services of Board
@@ -159,9 +159,10 @@ export class LocalHostService {
     return new Promise((resolve, reject) => {
       try {
         this.Boards = JSON.parse(localStorage.getItem("boards") || '');
-        const columnList = this.Boards.find((element) => element.column_list.find((item) => item.id == request.id_column));
-        console.log("columnList",columnList)
-        response.items = [];
+        let columnList = this.Boards.map((element) => element.column_list.filter((item) => { return item.id == request.id_column}));
+        columnList[0][0].task_list.push(request);
+        this.taskList.push(request)
+        response.items = [this.taskList];
         response.error = '';
         response.state = true;
         resolve(response);

@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
     title: ['', Validators.required],
   });
   public taskForm: FormGroup = this.formBuilder.group({
+    id: [uuidv4()],
     title: ['', Validators.required],
     description: ['', Validators.required],
     id_column: ['', Validators.required],
@@ -109,13 +110,16 @@ export class HeaderComponent implements OnInit {
       this.postStore.dispatch(columnActions.createColumn({request: request}));
       this.modalService.closeModal();
     }
+    this.columnForm.reset();
   }
 
   public addNewTask(){
     if(this.taskForm.valid){
       const newTask: TaskModel = _.cloneDeep(this.taskForm.value);
       this.postStore.dispatch(taskActions.createTask({request: newTask}));
+      this.taskForm.reset();
     }
+
   }
 
   public modalNewColumn(){

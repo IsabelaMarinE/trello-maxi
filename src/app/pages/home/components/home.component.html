@@ -4,6 +4,9 @@
         <div class="row">
           <div class="col" *ngFor="let column of listColumns">
             {{column.title}}
+            <div *ngFor="let task of column.task_list">
+              <app-card [title]="task.title" [description]="task.description"></app-card>
+            </div>
           </div>
         </div>
       </div>
