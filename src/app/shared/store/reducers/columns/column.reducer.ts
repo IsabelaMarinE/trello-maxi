@@ -7,11 +7,13 @@ import { ColumnModel } from '../../../models/columns/column.model';
 export const ColumnFetureKey = 'Column';
 
 export interface ColumnState {
-  createColumnResponse: ResponseModel<ColumnModel> | undefined;
+  createColumnResponse: ResponseModel<ColumnModel[]> | undefined;
+  allColumns: ResponseModel<ColumnModel[]> | undefined;
 }
 
 export const initialColumnState: ColumnState = {
   createColumnResponse: undefined,
+  allColumns: undefined,
 };
 
 export const ColumnReducer = createReducer(
@@ -19,6 +21,7 @@ export const ColumnReducer = createReducer(
     on(ColumnActions.clearStoreFlags, (state: ColumnState) => ({
         ...state,
         createColumnResponse: undefined,
+        allColumns: undefined,
     })),
 
     // Create Column
@@ -34,6 +37,20 @@ export const ColumnReducer = createReducer(
         ...state,
         createColumnResponse: undefined
     })),
+
+    // Get All Column
+    on(ColumnActions.getAllColumns, (state: ColumnState) => ({
+      ...state,
+      allColumns: undefined
+  })),
+  on(ColumnActions.getAllColumnsSuccess, (state: ColumnState, { response }) => ({
+      ...state,
+      allColumns: response
+  })),
+  on(ColumnActions.getAllColumnsFail, (state: ColumnState) => ({
+      ...state,
+      allColumns: undefined
+  })),
 
 );
 

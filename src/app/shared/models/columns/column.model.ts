@@ -4,12 +4,12 @@ export interface IColumnModel {
   id: string;
   id_board: string;
   title: string;
-  task_list: Array<TaskModel>;
+  task_list: TaskModel[];
 }
 
 export class ColumnModel implements IColumnModel {
   id!: string;
   id_board!: string;
   title!: string;
-  task_list!: Array<TaskModel>;
+  task_list!: TaskModel[];
 }

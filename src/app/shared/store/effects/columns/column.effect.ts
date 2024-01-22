@@ -24,6 +24,21 @@ export class ColumnEffects {
             )
         )
     )
+    getAllColumn$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ColumnActions.getAllColumns),
+            switchMap((action) =>
+                from(this.service.getAllColumns(action.id_board)).pipe(
+                    map((response) => {
+                        return ColumnActions.getAllColumnsSuccess({ response })
+                    }),
+                    catchError(() => {
+                        return of(ColumnActions.getAllColumnsFail());
+                    })
+                )
+            )
+        )
+    )
     constructor(
         private actions$: Actions,
         private service: LocalHostService

@@ -7,6 +7,9 @@ import { SharedModule } from '../../shared/shared.module';
 import { StoreFeatureKey, StoreReducer } from '../../shared/store/store.reducer';
 import { BoardEffects } from '../../shared/store/effects/boards/board.effect';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ColumnEffects } from '../../shared/store/effects/columns/column.effect';
+import { TaskEffects } from '../../shared/store/effects/tasks/task.effect';
+import { CheckboxDirective } from '../../shared/directives/checkbox.directive';
 
 
 @NgModule({
@@ -17,8 +20,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
+    CheckboxDirective,
     StoreModule.forFeature(StoreFeatureKey, StoreReducer),
-    EffectsModule.forFeature(BoardEffects)
+    EffectsModule.forFeature(BoardEffects),
+    EffectsModule.forFeature(ColumnEffects),
+    EffectsModule.forFeature(TaskEffects)
   ],
   exports: [
     HeaderComponent

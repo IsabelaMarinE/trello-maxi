@@ -4,12 +4,14 @@ export interface ITaskModel {
   id: string;
   description: string;
   status: string;
-  list_sub_task: Array<SubTaskModel>;
+  id_column: string;
+  sub_tasks: SubTaskModel[];
 }
 
 export class TaskModel implements ITaskModel {
   id!: string;
   description!: string;
   status!: string;
-  list_sub_task!: Array<SubTaskModel>;
+  id_column!: string;
+  sub_tasks!: SubTaskModel[];
 }

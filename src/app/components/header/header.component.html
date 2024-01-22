@@ -15,6 +15,7 @@
       borderRadius="20px"
       fontColore="#ffffff"
       *ngIf="isBoardSelected"
+      (click)="modalNewTask()"
       >
     </app-button>
     <app-button
@@ -40,6 +41,65 @@
         </div>
         <app-button
           [disabled]="!columnForm.valid"
+          classBtn="inline-flex items-center px-3 py-2 font-semibold"
+          text="Create"
+          bgColor="#6a82fb"
+          borderRadius="20px"
+          fontColore="#ffffff"
+          [needSvg]="false"
+          type="submit">
+        </app-button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ViewTaskTemplate>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="taskForm" autocomplete="off" (ngSubmit)="addNewTask()">
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" formControlName="title">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" formControlName="description" rows="3"></textarea>
+        </div>
+        <ng-container formArrayName="sub_tasks">
+          <ng-container *ngFor="let subTasksForm of sub_tasks.controls; let i = index">
+              <div class="container-subtask" [formGroupName]="i">
+                <div class="input-group mb-3">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input" formControlName="status" appCheckbox>
+                  </div>
+                  <input type="text" class="form-control input-sub-task" formControlName="description" placeholder="Description Sub Task">
+                </div>
+                <div class="col-2 mt-2 ml-4" (click)="deleteSubTask(i)">X</div>
+              </div>
+          </ng-container>
+      </ng-container>
+      <div class="mb-3">
+        <app-button
+          [disabled]="!taskForm.valid"
+          classBtn="inline-flex items-center px-3 py-2 font-semibold"
+          text="Add New SubTask"
+          bgColor="#3A8B63"
+          borderRadius="20px"
+          fontColore="#ffffff"
+          [needSvg]="false"
+          type="button"
+          (click)="addSubTask()">
+        </app-button>
+      </div>
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" formControlName="id_column">
+            <option [value]="column.id" *ngFor="let column of listOfColumns">{{column.title}}</option>
+          </select>
+        </div>
+        <app-button
+          [disabled]="!taskForm.valid"
           classBtn="inline-flex items-center px-3 py-2 font-semibold"
           text="Create"
           bgColor="#6a82fb"

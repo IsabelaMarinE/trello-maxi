@@ -15,9 +15,24 @@ export const createColumn = createAction(
 
 export const createColumnSuccess = createAction(
     '[Column] Create Column Success',
-    props<{ response: ResponseModel<ColumnModel> }>()
+    props<{ response: ResponseModel<ColumnModel[]> }>()
 )
 
 export const createColumnFail = createAction(
     '[Column] Create Column Fail'
+)
+
+// Get All Column
+export const getAllColumns = createAction(
+  '[Column] Get all Column',
+  props<{ id_board: string }>()
+)
+
+export const getAllColumnsSuccess = createAction(
+  '[Column] Get all Success',
+  props<{ response: ResponseModel<ColumnModel[]> }>()
+)
+
+export const getAllColumnsFail = createAction(
+  '[Column] Get all Fail'
 )

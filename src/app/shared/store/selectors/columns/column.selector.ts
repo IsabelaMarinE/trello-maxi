@@ -11,3 +11,9 @@ export const createColumnResponse = createSelector(
   (state: fromColumnStore.StoreState) =>
     state.columnStore.createColumnResponse
 );
+
+export const getAllColumnResponse = createSelector(
+  selectColumnStoreState,
+  (state: fromColumnStore.StoreState) =>
+    state.columnStore.allColumns
+);
