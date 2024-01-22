@@ -23,20 +23,24 @@ export class ModalService {
 
   constructor(private nzModalService: NzModalService) { }
   public tplFooter!: TemplateRef<{}>;
+  modal!: NzModalRef;
 
   openModal(options: InfoModalProps){
-    const modal: NzModalRef =this.nzModalService.create({
+    this.modal = this.nzModalService.create({
       nzTitle: options.title,
       nzContent: options.mainContent,
       nzMaskClosable: false,
       nzFooter: [
         {
-          label: 'Cerrar',
+          label: 'Close',
           shape: 'round',
-          onClick: () => modal.destroy()
+          onClick: () => this.modal.destroy()
         }
-      ],
-      nzOnOk: () => console.log('Click ok')
+      ]
     });
+  }
+
+  closeModal(){
+    this.modal.destroy();
   }
 }

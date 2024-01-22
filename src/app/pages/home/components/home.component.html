@@ -1,17 +1,16 @@
 <div class="p-4 border-2 border-gray-200 rounded-lg dark:border-gray-700">
     <div class="flex items-center justify-center">
-      <div class="container text-center">
+      <div class="container text-center" *ngIf="listColumns && listColumns.length > 0; else noList">
         <div class="row">
-          <div class="col">
-            Column
-          </div>
-          <div class="col">
-            Column
-          </div>
-          <div class="col">
-            Column
+          <div class="col" *ngFor="let column of listColumns">
+            {{column.title}}
           </div>
         </div>
       </div>
+      <ng-template #noList>
+        <div class="alert alert-primary" role="alert">
+          No Board Selected
+        </div>
+      </ng-template>
     </div>
 </div>

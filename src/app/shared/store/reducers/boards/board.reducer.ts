@@ -9,7 +9,7 @@ export const BoardFetureKey = 'Board';
 export interface BoardState {
     listboards: ResponseModel<BoardModel> | undefined;
     board: ResponseModel<BoardModel> | undefined;
-    createBoarResponse: BoardModel | undefined;
+    createBoarResponse: ResponseModel<BoardModel> | undefined;
 }
 
 export const initialBoardState: BoardState = {

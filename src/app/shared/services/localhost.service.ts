@@ -9,34 +9,44 @@ import { ResponseModel } from '../models/response.model';
 })
 export class LocalHostService {
 
-  private columns: ColumnModel[] = [{
-    id: uuidv4(),
-    title: 'To Do',
-    task_list: []
-  }]
-
   private Board: BoardModel = {
     id: uuidv4(),
     title: 'Home',
     description: 'Init Tasks',
-    column_list: this.columns
+    column_list: []
   }
+
+  private columns: ColumnModel[] = [{
+    id: uuidv4(),
+    id_board: this.Board.id,
+    title: 'To Do',
+    task_list: []
+  }];
+
 
   private Boards: BoardModel[] = [
     this.Board
   ];
 
   constructor() {
+    this.Board.column_list = this.columns;
   }
 
-  addNewboard(request: BoardModel): Promise<BoardModel> {
+  /*
+  Init Services of Board
+  */
+  addNewboard(request: BoardModel): Promise<ResponseModel<BoardModel>> {
+    const response = new ResponseModel<BoardModel>;
     try {
       this.Boards = JSON.parse(localStorage.getItem("boards") || '');
       this.Boards.push(request);
       localStorage.setItem("boards", JSON.stringify(this.Boards));
       return new Promise((resolve, reject) => {
         if(this.Boards){
-          resolve(this.Board)
+          response.items = this.Boards;
+          response.error = '';
+          response.state = true;
+          resolve(response);
         }
         reject(new Error("Problem on create new Board"))
       })
@@ -46,7 +56,7 @@ export class LocalHostService {
   }
 
   loadBoardById(id: string): Promise<ResponseModel<BoardModel>> {
-    const response = new ResponseModel<BoardModel>
+    const response = new ResponseModel<BoardModel>;
     return new Promise((resolve, reject) => {
       try {
         const board = this.Boards.find((element) => element.id == id);
@@ -56,10 +66,6 @@ export class LocalHostService {
           response.state = true;
           resolve(response);
         }
-        response.items = [];
-        response.error = 'Board Not Found';
-        response.state = false;
-        reject(response);
       } catch (err:any) {
         response.items = [];
         response.error = err;
@@ -74,12 +80,44 @@ export class LocalHostService {
     const response = new ResponseModel<BoardModel>
     return new Promise((resolve, reject) => {
       try {
-        if(this.Boards.length > 0){
-          response.items = this.Boards;
+        this.Boards = JSON.parse(localStorage.getItem("boards") || '');
+        if(this.Boards.length == 1){
+          localStorage.setItem("boards", JSON.stringify(this.Boards));
+        }
+        response.items = this.Boards;
+        response.error = '';
+        response.state = true;
+        resolve(response);
+      } catch (err:any) {
+        response.items = [];
+        response.error = err;
+        response.state = false;
+        reject(response);
+      }
+    })
+
+  }
+  /*
+  Finish Services of Board
+  */
+
+  /*
+  Init Services of Columns
+  */
+  createColumn(request: ColumnModel): Promise<ResponseModel<ColumnModel>> {
+    console.log("request",request)
+    const response = new ResponseModel<ColumnModel>
+    return new Promise((resolve, reject) => {
+      try {
+        const board = this.Boards.find((element) => element.id == request.id_board);
+        console.log("board",board)
+        if(board){
+          board?.column_list.push(request);
+          localStorage.setItem("boards", JSON.stringify(this.Boards));
+          response.items = [request];
           response.error = '';
           response.state = true;
           resolve(response);
-          localStorage.setItem("boards", JSON.stringify(this.Boards));
         }
       } catch (err:any) {
         response.items = [];
@@ -90,5 +128,8 @@ export class LocalHostService {
     })
 
   }
+ /*
+  Finish Services of Columns
+  */
 
 }

@@ -2,18 +2,55 @@
   <div>
     <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
       <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+        </path>
       </svg>
     </a>
   </div>
-  <div>
+  <div class="contanier-buttons">
     <app-button
       classBtn="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
       bgColor="#6a82fb"
       text="Add new task"
       borderRadius="20px"
       fontColore="#ffffff"
+      *ngIf="isBoardSelected"
+      >
+    </app-button>
+    <app-button
+      classBtn="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+      bgColor="#fe9600"
+      text="Add column"
+      borderRadius="20px"
+      fontColore="#ffffff"
+      *ngIf="isBoardSelected"
+      (click)="modalNewColumn()"
       >
     </app-button>
   </div>
 </nav>
+
+<ng-template #ViewColumnTemplate>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="columnForm" autocomplete="off" (ngSubmit)="addNewColumn()">
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" formControlName="title">
+        </div>
+        <app-button
+          [disabled]="!columnForm.valid"
+          classBtn="inline-flex items-center px-3 py-2 font-semibold"
+          text="Create"
+          bgColor="#6a82fb"
+          borderRadius="20px"
+          fontColore="#ffffff"
+          [needSvg]="false"
+          type="submit">
+        </app-button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modal></ng-template>

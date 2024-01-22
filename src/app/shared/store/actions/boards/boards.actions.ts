@@ -39,23 +39,9 @@ export const createBoard = createAction(
 
 export const createBoardSsuccess = createAction(
     '[Board] Create Board Success',
-    props<{ response: BoardModel }>()
+    props<{ response: ResponseModel<BoardModel> }>()
 )
 
 export const createBoardFail = createAction(
     '[Board] Create Board Fail'
-)
-
-// Create Default Board
-export const createDefaultBoard = createAction(
-  '[Board] Create Default Board'
-)
-
-export const createDefaultBoardSsuccess = createAction(
-  '[Board] Create Default Board Success',
-  props<{ response: ResponseModel<BoardModel> }>()
-)
-
-export const createDefaultBoardFail = createAction(
-  '[Board] Create Default Board Fail'
 )

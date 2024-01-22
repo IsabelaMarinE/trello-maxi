@@ -1,10 +1,13 @@
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" >
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" #menuCanvaClose></button>
+  </div>
   <div class="offcanvas-body">
     <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
       <div class="h-full px-3 py-4 overflow-y-auto">
         <p>ALL BOARDS</p>
         <ul class="space-y-2 font-medium">
-            <li *ngFor="let board of listBoards">
+            <li *ngFor="let board of listBoards" (click)="loadSelectedBoard(board.id)">
               <div class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">
                   <path d="M192 0c-41.8 0-77.4 26.7-90.5 64H64C28.7 64 0 92.7 0 128V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H282.5C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm104-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0c0-8.8 7.2-16 16-16H304c8.8 0 16 7.2 16 16s-7.2 16-16 16H176c-8.8 0-16-7.2-16-16z"/>
@@ -28,25 +31,20 @@
   <div class="row">
     <div class="col-12">
       <form [formGroup]="boardForm" autocomplete="off" (ngSubmit)="addNewBoard()">
-        <nz-form-item>
-          <nz-form-control nzErrorTip="Enter the Board Name">
-            <nz-input-group nzPrefixIcon="user">
-              <input formControlName="title" nz-input placeholder="Title" />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-control>
-            <app-button
-              [disabled]="!boardForm.valid"
-              classBtn="inline-flex items-center px-3 py-2 font-semibold"
-              text="Create"
-              bgColor="primary"
-              [needSvg]="false"
-              type="submit">
-            </app-button>
-          </nz-form-control>
-        </nz-form-item>
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" formControlName="title">
+        </div>
+        <app-button
+          [disabled]="!boardForm.valid"
+          classBtn="inline-flex items-center px-3 py-2 font-semibold"
+          text="Create"
+          bgColor="#6a82fb"
+          borderRadius="20px"
+          fontColore="#ffffff"
+          [needSvg]="false"
+          type="submit">
+        </app-button>
       </form>
     </div>
   </div>

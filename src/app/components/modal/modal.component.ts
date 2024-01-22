@@ -13,9 +13,7 @@ export class ModalComponent implements OnInit {
   @Input() mainContent!: TemplateRef<any>;
   public isVisible = false;
 
-  constructor(private modal: NzModalRef){
-
-  }
+  constructor(private modal: NzModalRef){}
 
   ngOnInit(): void {
     this.isVisible = true;
