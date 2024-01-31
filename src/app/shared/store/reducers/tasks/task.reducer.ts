@@ -2,15 +2,16 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as TaskActions from '../../actions/tasks/task.actions';
 import { ResponseModel } from '../../../models/response.model';
 import { TaskModel } from '../../../models/tasks/task.model';
+import { BoardModel } from '../../../models/boards/board.model';
 
 
 
 export const TaskFetureKey = 'Task';
 
 export interface TaskState {
-  createTaskResponse: ResponseModel<TaskModel[]> | undefined;
+  createTaskResponse: ResponseModel<BoardModel[]> | undefined;
   loadTask: ResponseModel<TaskModel> | undefined;
-  updateTask: ResponseModel<TaskModel> | undefined;
+  updateTask: ResponseModel<BoardModel[]> | undefined;
 }
 
 export const initialTaskState: TaskState = {

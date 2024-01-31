@@ -119,7 +119,6 @@ export class HeaderComponent implements OnInit {
       this.postStore.dispatch(taskActions.createTask({request: newTask}));
       this.taskForm.reset();
     }
-
   }
 
   public modalNewColumn(){

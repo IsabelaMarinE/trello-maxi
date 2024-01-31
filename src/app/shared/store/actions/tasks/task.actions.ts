@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { ResponseModel } from '../../../models/response.model';
 import { TaskModel } from '../../../models/tasks/task.model';
+import { BoardModel } from '../../../models/boards/board.model';
 
 
 export const clearStoreFlags = createAction('[Task] Clear Store Flags');
@@ -15,7 +16,7 @@ export const createTask = createAction(
 
 export const createTaskSuccess = createAction(
     '[Task] Create Task Success',
-    props<{ response: ResponseModel<TaskModel[]> }>()
+    props<{ response: ResponseModel<BoardModel[]> }>()
 )
 
 export const createTaskFail = createAction(
@@ -45,7 +46,7 @@ export const updateTask = createAction(
 
 export const updateTaskSuccess = createAction(
   '[Task] update Task Success',
-  props<{ response: ResponseModel<TaskModel> }>()
+  props<{ response: ResponseModel<BoardModel[]> }>()
 )
 
 export const updateTaskFail = createAction(

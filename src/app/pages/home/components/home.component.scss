@@ -1,0 +1,21 @@
+.container-style{
+  height: 95vh;
+  background: #f8f9fa;
+
+  .column-style {
+    background: #e5e7eb;
+    padding: 2%;
+    border-radius: 20px;
+    height: 90vh;
+    margin-right: 10px;
+
+    .title-style {
+      font-weight: bold;
+    }
+  }
+}
+
+.container-subtask {
+  display: flex;
+  justify-content: space-between;
+}

@@ -24,6 +24,37 @@ export class TaskEffects {
             )
         )
     )
+    gettask$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(TaskActions.loadTask),
+            switchMap((action) =>
+                from(this.service.getTaskById(action.id)).pipe(
+                    map((response) => {
+                        return TaskActions.loadTaskSuccess({ response })
+                    }),
+                    catchError(() => {
+                        return of(TaskActions.loadTaskFail());
+                    })
+                )
+            )
+        )
+    )
+
+    updatedtask$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(TaskActions.updateTask),
+            switchMap((action) =>
+                from(this.service.updatedTaskBy(action.request)).pipe(
+                    map((response) => {
+                        return TaskActions.updateTaskSuccess({ response })
+                    }),
+                    catchError(() => {
+                        return of(TaskActions.updateTaskFail());
+                    })
+                )
+            )
+        )
+    )
     constructor(
         private actions$: Actions,
         private service: LocalHostService

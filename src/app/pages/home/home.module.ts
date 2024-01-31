@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreFeatureKey, StoreReducer } from '../../shared/store/store.reducer';
 import { BoardEffects } from '../../shared/store/effects/boards/board.effect';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { BoardEffects } from '../../shared/store/effects/boards/board.effect';
     CommonModule,
     HomeRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     StoreModule.forFeature(StoreFeatureKey, StoreReducer),
     EffectsModule.forFeature(BoardEffects)
   ],

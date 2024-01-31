@@ -1,14 +1,14 @@
 <div class="card">
   <div class="card-body">
-    <h2 class="card-title">{{title}}</h2>
-    <p class="card-text">{{description}}</p>
+    <h2 class="card-title style-title">{{title}}</h2>
+    <p class="card-text description-style">{{description}}</p>
     <app-button
-      class="mt-5"
+      (click)="clickOnButton()"
+      class="mt-5 text-center"
       text="Edit"
       bgColor="#3A8B63"
       borderRadius="20px"
       fontColore="#ffffff"
-      classBtn="w-100"
       [needSvg]="false"
     ></app-button>
   </div>

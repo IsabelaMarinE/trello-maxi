@@ -10,7 +10,7 @@ import { TaskModel } from '../models/tasks/task.model';
 })
 export class LocalHostService {
   private idBoard = uuidv4();
-
+  private isEdited = false;
   private columns: ColumnModel = {
     id: uuidv4(),
     id_board: this.idBoard,
@@ -29,7 +29,7 @@ export class LocalHostService {
     this.Board
   ];
 
-  private taskList: any[] = [];
+  private taskList: TaskModel[] = [];
 
   constructor() {}
 
@@ -42,6 +42,7 @@ export class LocalHostService {
       this.Boards = JSON.parse(localStorage.getItem("boards") || '');
       this.Boards.push(request);
       localStorage.setItem("boards", JSON.stringify(this.Boards));
+      this.isEdited = true;
       return new Promise((resolve, reject) => {
         if(this.Boards){
           response.items = this.Boards;
@@ -81,7 +82,7 @@ export class LocalHostService {
     const response = new ResponseModel<BoardModel>
     return new Promise((resolve, reject) => {
       try {
-        if(this.Boards.length == 1){
+        if(this.Boards.length == 1 && !this.isEdited){
           localStorage.setItem("boards", JSON.stringify(this.Boards));
         }else{
           this.Boards = JSON.parse(localStorage.getItem("boards") || '');
@@ -114,6 +115,7 @@ export class LocalHostService {
         const index = this.Boards.findIndex((element) => element.id == request.id_board);
         this.Boards[index].column_list.push(request);
         localStorage.setItem("boards", JSON.stringify(this.Boards));
+        this.isEdited = true;
         response.items = [this.Boards[index].column_list];
         response.error = '';
         response.state = true;
@@ -154,15 +156,36 @@ export class LocalHostService {
   /*
   Init Services of Tasks
   */
-  createTask(request: TaskModel): Promise<ResponseModel<TaskModel[]>> {
-    const response = new ResponseModel<TaskModel[]>
+  createTask(request: TaskModel): Promise<ResponseModel<BoardModel[]>> {
+    const response = new ResponseModel<BoardModel[]>
     return new Promise((resolve, reject) => {
       try {
         this.Boards = JSON.parse(localStorage.getItem("boards") || '');
-        let columnList = this.Boards.map((element) => element.column_list.filter((item) => { return item.id == request.id_column}));
-        columnList[0][0].task_list.push(request);
-        this.taskList.push(request)
-        response.items = [this.taskList];
+        let columnList: any = this.Boards.map((element) => [element.id, element.column_list.filter((item) => { return item.id == request.id_column})]);
+        columnList[0][1][0].task_list.push(request);
+        this.taskList.push(request);
+        localStorage.setItem("boards", JSON.stringify(this.Boards));
+        this.isEdited = true;
+        response.items = [this.Boards];
+        response.error = '';
+        response.state = true;
+        resolve(response);
+      } catch (err:any) {
+        response.items = [];
+        response.error = err;
+        response.state = false;
+        reject(response);
+      }
+    })
+
+  }
+
+  getTaskById(id: string): Promise<ResponseModel<TaskModel>> {
+    const response = new ResponseModel<TaskModel>
+    return new Promise((resolve, reject) => {
+      try {
+        const task = this.taskList.find((task) => task.id == id);
+        response.items = [task!];
         response.error = '';
         response.state = true;
         resolve(response);
