@@ -2,10 +2,12 @@
     <div class="flex items-center justify-center">
       <div class="container text-center" *ngIf="listColumns && listColumns.length > 0; else noList">
         <div class="row">
-          <div class="col column-style" *ngFor="let column of listColumns">
+          <div class="col column-style"
+            *ngFor="let column of listColumns">
             <h3 class="mb-3 title-style">{{column.title}}</h3>
             <div *ngFor="let task of column.task_list">
               <app-card
+                cdkDrag
                 [id]="task.id"
                 [title]="task.title"
                 [description]="task.description"

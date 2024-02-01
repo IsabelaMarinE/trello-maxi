@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreFeatureKey, StoreReducer } from '../../shared/store/store.reducer';
 import { BoardEffects } from '../../shared/store/effects/boards/board.effect';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CdkDrag, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -19,6 +20,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    DragDropModule,
+    CdkDropList,
+    CdkDrag,
     StoreModule.forFeature(StoreFeatureKey, StoreReducer),
     EffectsModule.forFeature(BoardEffects)
   ],

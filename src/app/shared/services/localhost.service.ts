@@ -82,7 +82,7 @@ export class LocalHostService {
     const response = new ResponseModel<BoardModel>
     return new Promise((resolve, reject) => {
       try {
-        if(this.Boards.length == 1 && !this.isEdited){
+        if(this.Boards.length == 1){
           localStorage.setItem("boards", JSON.stringify(this.Boards));
         }else{
           this.Boards = JSON.parse(localStorage.getItem("boards") || '');
@@ -196,7 +196,30 @@ export class LocalHostService {
         reject(response);
       }
     })
+  }
 
+  updatedTaskBy(taskModel: TaskModel): Promise<ResponseModel<BoardModel[]>> {
+    const response = new ResponseModel<BoardModel[]>
+    return new Promise((resolve, reject) => {
+      try {
+        this.Boards = JSON.parse(localStorage.getItem("boards") || '');
+        let columnList: any = this.Boards.map((element) => [element.id, element.column_list.filter((item) => { return item.id == taskModel.id_column})]);
+        const indexlocal = this.taskList.findIndex((task:any) => task.id == taskModel.id);
+        this.taskList[indexlocal] = taskModel;
+        columnList[0][1][0].task_list.length = 0;
+        columnList[0][1][0].task_list.push(this.taskList);
+        localStorage.setItem("boards", JSON.stringify(this.Boards));
+        response.items = [this.Boards];
+        response.error = '';
+        response.state = true;
+        resolve(response);
+      } catch (err:any) {
+        response.items = [];
+        response.error = err;
+        response.state = false;
+        reject(response);
+      }
+    })
   }
  /*
   Finish Services of Task

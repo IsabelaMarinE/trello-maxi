@@ -3,6 +3,10 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
+import {
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import * as boardActions from '../../../shared/store/actions/boards/boards.actions';
 import * as taskActions from '../../../shared/store/actions/tasks/task.actions';
 import * as columnActions from '../../../shared/store/actions/columns/columns.actions';
@@ -27,7 +31,7 @@ export class HomeComponent implements OnInit {
   formTaksTemplate!: TemplateRef<any>;
 
   public ngDestroyed$ = new Subject();
-  public listColumns!: Array<ColumnModel>;
+  public listColumns!: any;
   public listOfColumns: any;
   public board!: BoardModel[];
   public taskEdit!: TaskModel;
@@ -114,6 +118,15 @@ export class HomeComponent implements OnInit {
           this.setValuesForm(this.taskEdit);
         }
       })
+    this.postStore
+      .select(taskSelector.updateTaskResponse)
+      .pipe(takeUntil(this.ngDestroyed$))
+      .subscribe((response) => {
+        if(response?.state){
+          this.board = _.cloneDeep(response.items[0]);
+          this.listColumns = this.board[0].column_list;
+        }
+      })
   }
 
   public setValuesForm(data: any){
@@ -125,7 +138,6 @@ export class HomeComponent implements OnInit {
     });
     this.taskEdit.sub_tasks.forEach((subTask) => {
       const subTasksForm = this.formBuilder.group({
-        id: [subTask.id],
         description: [subTask.description, Validators.required],
         status: [subTask.status]
       });
@@ -139,7 +151,8 @@ export class HomeComponent implements OnInit {
 
   public editTask(data: any){
     if(data){
-      this.postStore.dispatch(taskActions.loadTask({id: data}))
+      this.postStore.dispatch(taskActions.loadTask({id: data}));
+      this.modalService.closeModal();
     }
   }
 
@@ -160,6 +173,19 @@ export class HomeComponent implements OnInit {
       const editTask: TaskModel = _.cloneDeep(this.taskForm.value);
       this.postStore.dispatch(taskActions.updateTask({request: editTask}));
       this.taskForm.reset();
+    }
+  }
+
+  public drop(event: any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
   }
 
